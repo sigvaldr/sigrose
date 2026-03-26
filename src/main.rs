@@ -32,11 +32,12 @@ use penrose_ui::{bar::Position, core::TextStyle, status_bar};
 use std::collections::HashMap;
 use tracing_subscriber::{self, prelude::*};
 
-const FONT: &str = "ProFontIIx Nerd Font";
+const FONT: &str = "BigBlueTermPlus Nerd Font Mono";
 const BLACK: u32 = 0x282828ff;
 const WHITE: u32 = 0xebdbb2ff;
 const GREY: u32 = 0x3c3836ff;
 const BLUE: u32 = 0x458588ff;
+const SIGBLUE: u32 = 0x0225255ff;
 
 const MAX_MAIN: u32 = 1;
 const RATIO: f32 = 0.6;
@@ -44,7 +45,6 @@ const RATIO_STEP: f32 = 0.1;
 const OUTER_PX: u32 = 5;
 const INNER_PX: u32 = 5;
 const BAR_HEIGHT_PX: u32 = 18;
-
 
 fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
     let mut raw_bindings = map! {
@@ -87,7 +87,6 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
     raw_bindings
 }
 
-
 fn layouts() -> LayoutStack {
     stack!(
         MainAndStack::side(MAX_MAIN, RATIO, RATIO_STEP),
@@ -98,7 +97,6 @@ fn layouts() -> LayoutStack {
     .map(|layout| ReserveTop::wrap(Gaps::wrap(layout, OUTER_PX, INNER_PX), BAR_HEIGHT_PX))
 }
 
-
 fn main() -> Result<()> {
     tracing_subscriber::fmt()
         .with_env_filter("debug")
@@ -107,6 +105,7 @@ fn main() -> Result<()> {
 
     let config = add_ewmh_hooks(Config {
         default_layouts: layouts(),
+        focused_border: SIGBLUE.into(),
         ..Config::default()
     });
 
